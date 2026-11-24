@@ -1,0 +1,80 @@
+.cursorLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.trailItem {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  margin-top: -12px;
+  pointer-events: none;
+  will-change: transform, opacity;
+  filter: drop-shadow(2px 2px 0 rgba(27, 42, 38, 0.35));
+}
+
+.mainCursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform: translate3d(-100px, -100px, 0);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  margin-top: -6px;
+  border-radius: 9999px;
+  background-color: var(--accent);
+  border: 2px solid var(--border);
+  box-shadow: 2px 2px 0 var(--border);
+  transition: transform 0.15s ease, width 0.15s ease, height 0.15s ease;
+}
+
+.dotReduced {
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  margin-top: -5px;
+  border-radius: 9999px;
+  background-color: var(--accent);
+  border: 2px solid var(--border);
+}
+
+.bottleCap {
+  width: 30px;
+  height: 30px;
+  margin-left: -15px;
+  margin-top: -15px;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(2px 2px 0 var(--border));
+}
+
+.viewBadge {
+  margin-left: -28px;
+  margin-top: -14px;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background-color: var(--accent-warm);
+  color: #1b2a26;
+  border: 2px solid #1b2a26;
+  box-shadow: 3px 3px 0 #1b2a26;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
