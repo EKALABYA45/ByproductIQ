@@ -1,0 +1,218 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: $z-nav;
+  height: $nav-height;
+  background-color: var(--bg);
+  border-bottom: 2px solid var(--border);
+}
+
+.inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 44px;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.logoMark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  border: 2px solid var(--border);
+  box-shadow: 2px 2px 0 var(--border);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.brandBadge {
+  display: none;
+
+  @include respond(sm) {
+    @include sticker-badge(var(--accent-warm), #1b2a26, -3deg);
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    box-shadow: 2px 2px 0 var(--border);
+  }
+}
+
+.desktopNav {
+  display: none;
+  align-items: center;
+  gap: 1.5rem;
+
+  @include respond(lg) {
+    display: flex;
+  }
+}
+
+.navLink {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    height: 3px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.18s ease;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.loginWrap {
+  position: relative;
+  display: none;
+
+  @include respond(md) {
+    display: block;
+  }
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 260px;
+  padding: 0.75rem;
+  @include brutal-card($radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: $z-modal;
+}
+
+.dropdownLabel {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  padding: 0.2rem 0.4rem;
+}
+
+.dropdownLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0.55rem 0.8rem;
+  border-radius: $radius-sm;
+  border: 2px solid var(--border);
+  background-color: var(--surface-alt);
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition: transform 0.14s ease, background-color 0.14s ease;
+
+  &:hover {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+    transform: translate(-1px, -1px);
+  }
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--border);
+  opacity: 0.25;
+  margin-block: 0.15rem;
+}
+
+.menuBtn {
+  @include touch-target(44px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background-color: var(--surface);
+  box-shadow: 2px 2px 0 var(--border);
+
+  @include respond(lg) {
+    display: none;
+  }
+}
+
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  z-index: $z-drawer;
+  background-color: var(--bg);
+  padding: 1.25rem clamp(1rem, 4vw, 2rem) 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+
+.mobileTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+}
+
+.mobileLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-block: 2rem;
+}
+
+.mobileLink {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  @include brutal-card($radius-md);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.mobileAuth {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+
+  @include respond(sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}

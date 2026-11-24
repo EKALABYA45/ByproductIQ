@@ -1,0 +1,110 @@
+@use 'tokens' as *;
+
+:root,
+html[data-theme='public'] {
+  --bg: #{$color-off-white};
+  --surface: #ffffff;
+  --surface-alt: #e9f1da;
+  --ink: #{$color-ink};
+  --ink-muted: #3e524b;
+  --accent: #{$color-lime};
+  --accent-ink: #{$color-deep-green};
+  --accent-strong: #{$color-deep-green};
+  --accent-strong-ink: #{$color-off-white};
+  --accent-pop: #{$color-hot-pink};
+  --accent-warm: #{$color-sun-yellow};
+  --accent-craft: #{$color-cardboard};
+  --accent-blue: #{$color-electric-blue};
+  --border: #{$color-ink};
+}
+
+html[data-theme='public'][data-color-mode='dark'] {
+  --bg: #0d211c;
+  --surface: #{$color-deep-green};
+  --surface-alt: #194d40;
+  --ink: #{$color-off-white};
+  --ink-muted: #c8d9d3;
+  --accent: #{$color-lime};
+  --accent-ink: #{$color-deep-green};
+  --accent-strong: #{$color-lime};
+  --accent-strong-ink: #{$color-deep-green};
+  --border: #{$color-lime};
+}
+
+html[data-theme='seller'] {
+  --bg: #eef6de;
+  --surface: #ffffff;
+  --surface-alt: #dff0be;
+  --ink: #{$color-deep-green};
+  --ink-muted: #2d5247;
+  --accent: #{$color-lime};
+  --accent-ink: #{$color-deep-green};
+  --accent-strong: #{$color-deep-green};
+  --accent-strong-ink: #{$color-off-white};
+  --accent-pop: #{$color-hot-pink};
+  --accent-warm: #{$color-sun-yellow};
+  --accent-craft: #{$color-cardboard};
+  --accent-blue: #{$color-electric-blue};
+  --border: #{$color-deep-green};
+}
+
+html[data-theme='seller'][data-color-mode='dark'] {
+  --bg: #0a261f;
+  --surface: #{$color-deep-green};
+  --surface-alt: #1a4e41;
+  --ink: #{$color-off-white};
+  --ink-muted: #cee3b5;
+  --accent: #{$color-lime};
+  --accent-ink: #{$color-deep-green};
+  --accent-strong: #{$color-lime};
+  --accent-strong-ink: #{$color-deep-green};
+  --border: #{$color-lime};
+}
+
+html[data-theme='buyer'] {
+  --bg: #faf4ea;
+  --surface: #ffffff;
+  --surface-alt: #efe1ca;
+  --ink: #{$color-ink};
+  --ink-muted: #4e4333;
+  --accent: #{$color-cardboard};
+  --accent-ink: #{$color-ink};
+  --accent-strong: #{$color-electric-blue};
+  --accent-strong-ink: #0b1628;
+  --accent-pop: #{$color-sun-yellow};
+  --accent-warm: #{$color-sun-yellow};
+  --accent-craft: #{$color-cardboard};
+  --accent-blue: #{$color-electric-blue};
+  --border: #{$color-ink};
+}
+
+html[data-theme='buyer'][data-color-mode='dark'] {
+  --bg: #1e1913;
+  --surface: #2a2219;
+  --surface-alt: #382d21;
+  --ink: #{$color-off-white};
+  --ink-muted: #dfcdb3;
+  --accent: #{$color-cardboard};
+  --accent-ink: #{$color-ink};
+  --accent-strong: #{$color-electric-blue};
+  --accent-strong-ink: #0b1628;
+  --accent-pop: #{$color-sun-yellow};
+  --border: #{$color-cardboard};
+}
+
+html[data-theme='admin'] {
+  --bg: #121615;
+  --surface: #1b211f;
+  --surface-alt: #242c2a;
+  --ink: #{$color-off-white};
+  --ink-muted: #aabab5;
+  --accent: #{$color-lime};
+  --accent-ink: #{$color-deep-green};
+  --accent-strong: #{$color-electric-blue};
+  --accent-strong-ink: #0b1628;
+  --accent-pop: #{$color-hot-pink};
+  --accent-warm: #{$color-sun-yellow};
+  --accent-craft: #{$color-cardboard};
+  --accent-blue: #{$color-electric-blue};
+  --border: #4c5c57;
+}
