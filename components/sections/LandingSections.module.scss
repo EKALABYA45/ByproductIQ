@@ -1,0 +1,319 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+
+.section {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+}
+
+.sectionAlt {
+  background-color: var(--surface-alt);
+  border-block: 2px solid var(--border);
+}
+
+.sectionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.headerCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-width: 64ch;
+}
+
+.problemGrid {
+  display: grid;
+  gap: 1.5rem;
+
+  @include respond(md) {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: stretch;
+  }
+}
+
+.card {
+  @include brutal-card;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cardTaped {
+  @include brutal-card;
+  @include tape-strip;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.whyStack {
+  display: grid;
+  gap: 1.25rem;
+
+  @include respond(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.dceGrid {
+  display: grid;
+  gap: 1.35rem;
+
+  @include respond(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.dceNum {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background-color: var(--accent);
+  border: 2px solid var(--border);
+  border-radius: 9999px;
+  padding: 0.25rem 0.7rem;
+  align-self: flex-start;
+}
+
+.examplesGrid {
+  display: grid;
+  gap: 1.35rem;
+  grid-template-columns: 1fr;
+
+  @include respond(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.photoWallGrid {
+  display: grid;
+  gap: 1.35rem;
+  grid-template-columns: 1fr;
+
+  @include respond(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.photoColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.twoCol {
+  display: grid;
+  gap: 1.5rem;
+
+  @include respond(lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stepList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.stepRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.95rem 1.05rem;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background-color: var(--bg);
+}
+
+.stepNum {
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.28rem 0.55rem;
+  border-radius: 10px;
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  border: 1.5px solid var(--border);
+}
+
+.bentoGrid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+
+  @include respond(md) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.bentoItem {
+  @include brutal-card;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @include respond(md) {
+    grid-column: span 2;
+  }
+}
+
+.bentoWide {
+  @include respond(md) {
+    grid-column: span 3;
+  }
+}
+
+.libraryGrid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+
+  @include respond(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond(xl) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.libraryCard {
+  @include brutal-card;
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ideaBullets {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.92rem;
+  color: var(--ink-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.evidenceTag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  border: 1.5px solid var(--border);
+  background-color: var(--surface-alt);
+  align-self: flex-start;
+}
+
+.aiPanel {
+  @include brutal-card;
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  display: grid;
+  gap: 1.5rem;
+
+  @include respond(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.checkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+}
+
+.trustPanel {
+  @include brutal-card;
+  background-color: var(--accent-strong);
+  color: var(--accent-strong-ink);
+  padding: clamp(1.75rem, 4vw, 3rem);
+  display: grid;
+  gap: 1.5rem;
+
+  @include respond(md) {
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+  }
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 900px;
+}
+
+.faqItem {
+  @include brutal-card($radius-md);
+  overflow: hidden;
+}
+
+.faqButton {
+  width: 100%;
+  min-height: 56px;
+  padding: 1.05rem 1.35rem;
+  background: transparent;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.12rem;
+  font-weight: 700;
+}
+
+.faqAnswer {
+  padding: 0 1.35rem 1.2rem;
+  color: var(--ink-muted);
+  border-top: 1px dashed var(--border);
+  padding-top: 0.9rem;
+}
+
+.finalCta {
+  @include brutal-card;
+  @include tape-strip;
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  padding: clamp(2rem, 5vw, 3.75rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
