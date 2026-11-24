@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatePresence, motion } from 'motion/react';
 import {
   ArrowRight,
@@ -16,24 +18,53 @@ import {
   BUYER_STEPS,
   FAQ_ITEMS,
   MATERIAL_LIBRARY_PREVIEW,
-  PRODUCT_EXAMPLES,
   SELLER_STEPS,
 } from '@/lib/data/landingContent';
-import { ProductExampleCard } from '@/components/cards/ProductExampleCard';
+import { useSmoothScroll } from '@/components/providers/SmoothScrollProvider';
+import { TrashToTreasureSection } from './TrashToTreasureSection';
+import { ParallaxPhotoWall } from './ParallaxPhotoWall';
 import styles from './LandingSections.module.scss';
 
-export function LandingSections() {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+gsap.registerPlugin(ScrollTrigger);
 
-  // Split 17 examples into 3 columns for section 8 (photo wall)
-  const photoCols: [typeof PRODUCT_EXAMPLES, typeof PRODUCT_EXAMPLES, typeof PRODUCT_EXAMPLES] = [
-    PRODUCT_EXAMPLES.filter((_, idx) => idx % 3 === 0),
-    PRODUCT_EXAMPLES.filter((_, idx) => idx % 3 === 1),
-    PRODUCT_EXAMPLES.filter((_, idx) => idx % 3 === 2),
-  ];
+export function LandingSections() {
+  const { reducedMotion } = useSmoothScroll();
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || reducedMotion) return;
+
+    const stickers = Array.from(
+      document.querySelectorAll<HTMLElement>('.velocity-sticker, .sticker')
+    );
+    if (stickers.length === 0) return;
+
+    const rotSetters = stickers.map((el, idx) => ({
+      el,
+      base: idx % 2 === 0 ? -2 : 2,
+      to: gsap.quickTo(el, 'rotation', { duration: 0.4, ease: 'power3.out' }),
+    }));
+
+    const trigger = ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: (self) => {
+        const vel = Math.max(-18, Math.min(18, self.getVelocity() / 160));
+        rotSetters.forEach((item, idx) => {
+          item.to(item.base + vel * (idx % 2 === 0 ? 1 : -0.8));
+        });
+      },
+    });
+
+    return () => {
+      trigger.kill();
+    };
+  }, [reducedMotion]);
 
   return (
-    <>
+    <div ref={rootRef}>
       {/* 4. THE PROBLEM */}
       <section className={`container ${styles.section}`}>
         <div className={styles.problemGrid}>
@@ -164,62 +195,11 @@ export function LandingSections() {
         </div>
       </section>
 
-      {/* 7. TRASH -> TREASURE SHOWCASE */}
-      <section
-        id="examples"
-        className={`${styles.section} ${styles.sectionAlt}`}
-      >
-        <div className="container">
-          <div className={styles.sectionHeader}>
-            <div className={styles.headerCopy}>
-              <span className="sticker sticker--pink">TRASH &rarr; TREASURE</span>
-              <h2 className="display-lg">
-                What leftover streams can turn into
-              </h2>
-              <p style={{ color: 'var(--ink-muted)' }}>
-                Every card below is marked as sample inspiration &mdash;{' '}
-                <strong>
-                  Verify safety, quality and legal requirements before making or
-                  selling.
-                </strong>
-              </p>
-            </div>
-          </div>
+      {/* 7. TRASH -> TREASURE PINNED HORIZONTAL GALLERY */}
+      <TrashToTreasureSection />
 
-          <div className={styles.examplesGrid}>
-            {PRODUCT_EXAMPLES.slice(0, 6).map((item) => (
-              <ProductExampleCard key={item.slug} item={item} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. ALL PRODUCT EXAMPLES PHOTO WALL */}
-      <section className={`container ${styles.section}`}>
-        <div className={styles.sectionHeader}>
-          <div className={styles.headerCopy}>
-            <span className="sticker sticker--blue">FULL GALLERY</span>
-            <h2 className="display-lg">
-              All 17 circular product examples
-            </h2>
-            <p style={{ color: 'var(--ink-muted)' }}>
-              Hover any card for the cursor &ldquo;VIEW&rdquo; badge. Hazardous
-              items such as insulated wire are flagged for authorised recyclers
-              only.
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.photoWallGrid}>
-          {photoCols.map((col, colIdx) => (
-            <div key={colIdx} className={styles.photoColumn}>
-              {col.map((item) => (
-                <ProductExampleCard key={item.slug} item={item} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* 8. PARALLAX UP/DOWN PHOTO WALL */}
+      <ParallaxPhotoWall />
 
       {/* 9. HOW IT WORKS: SELLERS & BUYERS SIDE BY SIDE */}
       <section
@@ -544,6 +524,6 @@ export function LandingSections() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

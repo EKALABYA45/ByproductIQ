@@ -1,0 +1,45 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+
+.section {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.headerCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-width: 64ch;
+}
+
+.wallGrid {
+  display: grid;
+  gap: 1.35rem;
+  grid-template-columns: 1fr;
+
+  @include respond(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond(md) {
+    grid-template-columns: repeat(3, 1fr);
+    padding-block: 1.5rem;
+  }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  will-change: transform;
+}
