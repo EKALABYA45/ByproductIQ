@@ -1,14 +1,10 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { PRODUCT_EXAMPLES } from '@/lib/data/landingContent';
 import { ProductExampleCard } from '@/components/cards/ProductExampleCard';
-import { useSmoothScroll } from '@/components/providers/SmoothScrollProvider';
 import styles from './TrashToTreasureSection.module.scss';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const FEATURED_SLUGS = new Set([
   'tyre-wall-planter',
@@ -22,47 +18,52 @@ const FEATURED_SLUGS = new Set([
 ]);
 
 export function TrashToTreasureSection() {
-  const { reducedMotion } = useSmoothScroll();
-  const pinSectionRef = useRef<HTMLElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const dragState = useRef<{
+    isDown: boolean;
+    startX: number;
+    scrollLeft: number;
+  }>({ isDown: false, startX: 0, scrollLeft: 0 });
 
   const featured = PRODUCT_EXAMPLES.filter((item) =>
     FEATURED_SLUGS.has(item.slug)
   );
 
-  useEffect(() => {
-    const section = pinSectionRef.current;
+  const scrollByCard = (direction: -1 | 1) => {
     const track = trackRef.current;
-    if (!section || !track || reducedMotion) return;
-
-    const mm = gsap.matchMedia();
-
-    mm.add('(min-width: 768px)', () => {
-      const getDistance = () =>
-        Math.max(0, track.scrollWidth - window.innerWidth + 48);
-
-      if (getDistance() <= 0) return;
-
-      gsap.to(track, {
-        x: () => -getDistance(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          pin: true,
-          scrub: 0.85,
-          end: () => `+=${getDistance()}`,
-          invalidateOnRefresh: true,
-        },
-      });
+    if (!track) return;
+    track.scrollBy({
+      left: direction * 390,
+      behavior: 'smooth',
     });
+  };
 
-    return () => mm.revert();
-  }, [reducedMotion]);
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    const track = trackRef.current;
+    if (!track) return;
+    dragState.current = {
+      isDown: true,
+      startX: e.clientX,
+      scrollLeft: track.scrollLeft,
+    };
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragState.current.isDown) return;
+    const track = trackRef.current;
+    if (!track) return;
+    const dx = e.clientX - dragState.current.startX;
+    track.scrollLeft = dragState.current.scrollLeft - dx;
+  };
+
+  const handlePointerUpOrLeave = () => {
+    dragState.current.isDown = false;
+  };
 
   return (
     <section
       id="examples"
-      ref={pinSectionRef}
       className={styles.section}
       aria-label="Trash to Treasure horizontal gallery"
     >
@@ -76,22 +77,46 @@ export function TrashToTreasureSection() {
               Before &amp; after circular product gallery
             </h2>
             <p style={{ color: 'var(--ink-muted)' }}>
-              Scroll to slide horizontally through real material
-              transformations.{' '}
+              Swipe, drag, or use the arrows to scroll left and right across
+              material transformations while keeping vertical page scroll free.{' '}
               <strong>
                 Verify safety, quality and legal requirements before making or
                 selling.
               </strong>
             </p>
           </div>
-          <span className="sticker sticker--yellow velocity-sticker">
-            PINNED SCROLL
-          </span>
+
+          <div className={styles.controls} aria-label="Gallery navigation">
+            <button
+              type="button"
+              className={styles.navBtn}
+              onClick={() => scrollByCard(-1)}
+              aria-label="Scroll gallery left"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              type="button"
+              className={styles.navBtn}
+              onClick={() => scrollByCard(1)}
+              aria-label="Scroll gallery right"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className={styles.trackOuter}>
-        <div ref={trackRef} className={styles.track}>
+      <div className={styles.trackWrap}>
+        <div
+          ref={trackRef}
+          className={styles.track}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUpOrLeave}
+          onPointerCancel={handlePointerUpOrLeave}
+          onPointerLeave={handlePointerUpOrLeave}
+        >
           {featured.map((item) => (
             <div key={item.slug} className={styles.slideCard}>
               <div className={styles.beforeAfterBar}>
@@ -104,6 +129,7 @@ export function TrashToTreasureSection() {
               <ProductExampleCard item={item} />
             </div>
           ))}
+          <div className={styles.endSpacer} aria-hidden="true" />
         </div>
       </div>
     </section>
